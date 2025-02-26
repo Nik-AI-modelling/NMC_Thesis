@@ -28,7 +28,7 @@ Print_2Dvector::Print_2Dvector( const std::vector<std::vector<float>>& vec2D,con
 				outfile << "]," << std::endl;//Move to the next line after each row
 		}
 
-		//Close file
+ 		//Close file
 		outfile.close();
 		std::cout << "2D vector written to file succsefully." << VecName  << std::endl;
 	} 	else {

@@ -252,45 +252,78 @@ std::string cleanAndConvertToDouble(const std::string& str) {
 }
 
 
-void NN::load(const char* path) {
+void NN::load(const std::string pathX, const std::string pathY, const std::string pathVelx, const std::string pathVely) {
+    std::vector<std::ifstream> files;
+    std::vector<std::string> filenames = { pathX, pathY, pathVelx, pathVely };
 
-    std::vector<double> vect;
+    for (const auto& filename : filenames) {
+        // This line adds a new std::ifstream object to the files vector, opening the file specified by filename.
+         //emplace_back(filename) constructs the std::ifstream object in place within the vector.
+         //vector emplace_back() is a built-in method used to insert an element at the end of the vector
+         //by constructing it in-place.
+        files.emplace_back(filename);
+        //back() just returns a reference to the last element
+        if (!files.back().is_open()) {
+            std::cerr << "Error:Cannot open " << filename << std::endl;
+            break;
+        }
+        std::cout << "All files opend succesfully" << std::endl;
+    }
 
+    // std::ifstream file1(pathX);
+    // std::ifstream file2(pathY);
+    // std::ifstream file3(pathVelx);
+    // std::ifstream file4(pathVely);
+
+    // std::ifstream* files[] = { &file1,&file2,&file3,&file4 };
+   //  const std::string filenames[] = { "file1","file2","file3","file4"};
+
+    // for (int i = 0;i < 4;++i) {
+     //    assert(files[i]->is_open() && ("Cannot open " + std::string(filenames[i])).c_str());
+    // }
+
+     //std::cout << "All files opend succesgfully" << std::endl;
+
+    std::vector <double> vect;
+    std::ofstream outputFile("C:/Users/lench/source/repos/NMC_Thesis/NMC_Thesis/output.txt");
     //The commented-out assert ensures that the network has no existing layers. 
     // If uncommented, the program would abort if layers were not empty.
     // TODO: What if it has layers already.
     //assert(layers.size() == 0 && "Cannot load to an already built nn.");
     layers.clear();
-    
 
-    //!!file ensures that the file is successfully opened.
-    //If the file cannot be opened, the program terminates with an assertion message.
-    //This reads the file
-    std::ifstream file(path, std::ios::binary);
-
-    assert(!!file && "Cannot open the nn file.");
-
-    //read by line
     std::string line;
 
     //Read file line by line
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);// Convert line to stream
-        std::string value;
+    for (int i = 0;i < 4;++i) {
+        while (std::getline(files[i], line)) {
+            std::istringstream iss(line);// Convert line to stream
+            std::string value;
 
-        //This reads each value 
-        while (iss >> value) {
-            try {
-                std::string output = cleanAndConvertToDouble(value);
-                if (!output.empty()){
-                    vect.push_back(std::stod(output));
+            //This reads each value 
+            while (iss >> value) {
+                try {
+                    std::string output = cleanAndConvertToDouble(value);
+                    if (!output.empty()) {
+                        vect.push_back(std::stod(output));
+                    }
+                }
+                catch (...) {
                 }
             }
-            catch (...) {
-            }
+            // Write to output file with tab separation
+       
+            outputFile << "\n";
         }
-    }
+        
 
+        }
+    for (int j = 0; j < vect.size(); ++j) {
+        outputFile << vect[j];
+        outputFile <<"                           " << vect[j] << "\n";
+    }
+    //Close file
+    outputFile.close();
 }
 
 

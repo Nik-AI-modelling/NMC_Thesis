@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdvectionVelocityCalc.h" />
+    <ClInclude Include="FilePaths.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="NN.h" />

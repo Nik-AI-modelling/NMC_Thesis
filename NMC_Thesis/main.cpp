@@ -5,7 +5,9 @@
 #include "TaylorGreenAnalytical.h"
 #include "AdvectionVelocityCalc.h"
 #include "Print_2Dvector.h"
+#include "FilePaths.h"
 #include <math.h>
+#include <string>
 #include "NN.h"
 
 # define M_PI 3.14159265358979323846  /* pi */
@@ -83,7 +85,10 @@ int main()
 	//AdvectionVelocityCalc AdvAnalVel("TaG", &TaGrAn1, dt, t_end, RangeMax, StepInRange, NumberRowsVector);
 	NN n({ 2,20,10,2 }, { "vx","vy" });
 
-	n.load("C:/Users/lench/source/repos/NMC_Thesis/NMC_Thesis/vect2D_x_TGr.txt");
+   
+
+	//Load training data
+	n.load(path_x_TGr, path_y_TGr, path_ux_TGr, path_uy_TGr);
 
 	return 0;
 

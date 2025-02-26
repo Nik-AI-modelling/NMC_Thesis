@@ -37,7 +37,7 @@ struct NN {
 	void save(const char* path) const;
 
 	//Loads the model parameters from a file.
-	void load(const char* path);
+	void load(const std::string pathX, const std::string pathY, const std::string pathVelx, const std::string pathVely);
 
 	float error(Matrix& out, Matrix& exp);
 };
